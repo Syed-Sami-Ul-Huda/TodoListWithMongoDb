@@ -38,11 +38,12 @@ const mongoose = require("mongoose");
 // if you find any warning in console so simply change this boolean value to true
 mongoose.set("useFindAndModify", false);
 
-mongoose.connect(process.env.DB_CONNECT,
-    { useNewUrlParser: true, useUnifiedTopology: true }, () => {
-console.log("Connected to db!");
-app.listen(5000, () => console.log(`Todo database is running on port 5000`));
-});
+const options = { useNewUrlParser: true, useUnifiedTopology: true };
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.DB_CONNECT, options).then(
+  ()=> console.log('connected to mongodb'),
+  (reason)=> console.error(`Error: ${reason}`)
+);
 
 // view engine configuration
 app.set("view engine", "ejs");
